@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Group Create</title>
+  <link rel="stylesheet" href="group.css">
+  <style>
+    body {
+      background: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    img {
+      height: 60px;
+      width: 60px;
+    }
+
+    section {
+      text-align: center;
+      margin: 50px auto;
+      padding: 20px;
+      width: 80%;
+      border-radius: 10px;
+      border: 2px solid;
+      background: #288f92;
+      box-sizing: border-box;
+    }
+
+    .search-container {
+      position: relative;
+      margin: 20px 0;
+    }
+
+    /* Style for the search input */
+    .search-input {
+      width: 50%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    /* Style for the search icon */
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      color: #555;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .Group {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Style for group container */
+    .group-container {
+      flex: 0 0 calc(20% - 20px); /* Adjust the width as needed, considering margins */
+      margin: 10px;
+      padding: 30px;
+      text-align: center;
+      border: 1px solid #ccc;
+      background-color: white;
+      box-sizing: border-box;
+    }
+
+    /* Fixed image styles */
+    .group-image {
+      width: 50%;
+      height: auto;
+      max-height: 100px; /* Adjust the maximum height as needed */
+      object-fit: cover;
+      margin-bottom: 10px;
+    }
+
+    /* Title styles */
+    .group-title {
+      font-size: 1.0em; /* Adjust the font size as needed */
+    }
+    #add{
+      background-color:white;
+      width: 160px;
+      height: 180px;
+      /* max-height: 200px;  */
+      margin-top: 10px;
+      border: #ccc;
+      /* overflow-y: auto;  */
+      box-sizing: border-box;
+      flex: 0 0 calc(20% - 20px);
+    }
+
+  </style>
+</head>
+<body>
+  <section>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search...">
+      <i class="search-icon">🔍</i>
+    </div>
+  
+    <div class="container">
+      <h1>Group Kit</h1>
+      <p>Enhance your team collaboration</p>
+    </div>
+
+    <div class="Group">
+      <button id="add" onclick="window.location.href='/sign'">
+        <img src="https://cdn-icons-png.flaticon.com/512/8847/8847419.png" alt="logo" />
+        <h3>ADD</h3>
+      </button>
+      {% for group_id in group_id %}
+      <button class="group-container" onclick="redirectToMember('{{ group_id }}')">
+        <img class="group-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5Imu8hcIyErDlWFbAtY9nUwiZoqYjbac2UomPUkUULEKMtqzb" alt="Fixed Image">
+        <h3 class="group_id">{{ group_id }}</h3>
+      </button>
+      {% endfor %}
+    </div>
+
+  </section>
+  <script>
+    // Get the button element by its ID
+    const addButton = document.getElementById('add');
+
+    // Add a click event listener to the button
+    addButton.addEventListener('click', function() {
+      console.log('Button "add" clicked!');
+    });
+    function redirectToMember(groupTitle) {
+    window.location.href = '/member?group=' + encodeURIComponent(groupTitle);
+  }
+  </script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Members</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            text-align: center; /* Center-align the content */
+        }
+
+        header {
+            background-color: hsl(216, 76%, 67%);
+            color: #fff;
+            padding: 10px;
+        }
+
+        #addMemberForm {
+            margin: 20px;
+        }
+
+        #addMemberButton {
+            padding: 8px 16px;
+            background-color: hsl(220, 61%, 51%);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            border-color: black;
+        }
+        .group-container {
+            flex: 0 0 calc(20% - 20px);
+            margin: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .group-container:hover {
+            background-color: #f0f0f0;
+        }
+
+        .group-image {
+            width: 50%;
+            height: auto;
+            max-height: 100px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .group-title {
+            font-size: 1.2em;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        /* Additional styling for the 'ADD' button */
+        #add {
+            background-color: #2196F3;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .group-container {
+            float:left; /* Adjust the width as needed, considering margins */
+            margin: 10px;
+            padding: 30px;
+            text-align: center;
+            border: 1.5px solid #ccc;
+            background-color: white;
+            box-sizing: border-box;
+            border-radius: 15px;
+            border-color: #161515;
+        }
+
+        /* Fixed image styles */
+        .group-image {
+            width: 50%;
+            height: auto;
+            max-height: 100px; /* Adjust the maximum height as needed */
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        /* Title styles */
+        .group-title {
+            font-size: 1.0em; /* Adjust the font size as needed */
+        }
+        .group-container:hover {
+            background-color: #f9fafc;
+        }
+        #memberDetailsContainer {
+            display: none; /* Hide the container by default */
+            text-align: center;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #161515;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            border-radius: 10px;
+        }
+
+        .member-details {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .member-details h2 {
+            font-size: 1.5em;
+            color: #161515;
+        }
+
+        .member-details h3 {
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        .member-details p {
+            margin: 5px 0;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Group Members</h1>
+    </header>
+    <div id="addMemberForm">
+        <button onclick="loadMemberForm()" id="addMemberButton">Add Member</button>
+    </div>
+    {% if selected_group %}
+    <div class="group_container">
+        <h2 id="selectedGroup">{{ selected_group }}</h2>
+        <div id="memberDetailsContainer"></div>
+        {% for member in members_data[selected_group] %}
+        <button class="group-container" onclick="redirectToMember('{{ member.name }}')">
+            <img class="group-image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5Imu8hcIyErDlWFbAtY9nUwiZoqYjbac2UomPUkUULEKMtqzb" alt="Fixed Image">
+            <h3 class="group_id">{{ member.name }}</h3>
+        </button>
+        {% endfor %}
+    </div>
+    {% else %}
+    {% for group_title, members in members_data.items() %}
+    <div class="group-container">
+        <h2><a href="{{ url_for('member', group=group_title) }}">{{ group_title }}</a></h2>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+
+    <script>
+        function loadMemberForm() {
+            window.location.href = "/form";
+        }
+
+        function redirectToMember(groupTitle) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", '/api/member?members=' + encodeURIComponent(groupTitle), true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var memberDetails = JSON.parse(xhr.responseText);
+                    displayMemberDetails(memberDetails);
+                }
+            };
+            xhr.send();
+        }
+
+        function displayMemberDetails(memberDetails) {
+            var detailsContainer = document.getElementById("memberDetailsContainer");
+            detailsContainer.innerHTML = "";
+
+            for (var i = 0; i < memberDetails.length; i++) {
+                var member = memberDetails[i];
+                var memberContainer = document.createElement("div");
+                memberContainer.className = "member-container";
+
+                var groupName = document.createElement("h2");
+                groupName.textContent = member.group_title;
+
+                var name = document.createElement("h3");
+                name.textContent = member.name;
+
+                var email = document.createElement("p");
+                email.textContent = "Email: " + member.email;
+
+                var contactNumber = document.createElement("p");
+                contactNumber.textContent = "Contact Number: " + member.contact_number;
+
+                var role = document.createElement("p");
+                role.textContent = "Role: " + member.role;
+
+                memberContainer.appendChild(groupName);
+                memberContainer.appendChild(name);
+                memberContainer.appendChild(email);
+                memberContainer.appendChild(contactNumber);
+                memberContainer.appendChild(role);
+
+                detailsContainer.appendChild(memberContainer);
+            }
+
+            // Show the container after setting its content
+            detailsContainer.style.display = "block";
+        }
+    </script>
+</body>
+
+</html>

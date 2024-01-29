@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='sign.css') }}">
+</head>
+<body>
+    <div class="hero">
+        <div class="form-box">
+            <div class="social-icons">
+                <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQ-T-9kftIq_iIsDy-wjLevGodStCDvpGeaTRfXyP3z_nxKwh6F" alt="">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH7VUssI_yH9JceOSsdwAJoaAah2qKsBR69zGa3INiHv_AxE0N" alt="">
+                <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRncFvRT0ZdXs-AxFYim2-CeA5LHzm7V2boQV64yxkosLhLinZx" alt="">
+            </div>            
+            <form id="sign" class="input-group" method="POST" action="/sign">
+                <input type="text" class="input-field" placeholder="Group ID" name="group_id" required>
+                <input type="email" class="input-field" placeholder="Email" name="email" required>
+                <input type="password" class="input-field" placeholder="Enter Password" name="password" required>
+                
+                <label>
+                    <input type="checkbox" class="check-box" name="terms" required>
+                    <span>I agree to the terms & Conditions</span>
+                </label>
+                <br>
+                <button id="submit" type="submit" class="submit-btn">SUBMIT</button>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function changeForm(type) {
+            const formAction = document.getElementById(type);
+            formAction.action = '/' + type;
+            window.history.pushState({}, '', '/' + type);
+        }
+    </script>    
+</body>
+</html>

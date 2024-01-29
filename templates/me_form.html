@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Members</title>
+    <style>
+        #memberForm {
+            text-align: center;
+            margin: 20px;
+            height: 400px;
+            width: 300px;
+            border: 2px solid black;
+            margin-left: 400px;
+            background: hsl(216, 80%, 76%);
+            border-radius: 10px;
+        }
+
+        #memberForm input {
+            margin: 8px;
+            padding: 8px;
+        }
+
+        #submitMemberButton {
+            padding: 8px 16px;
+            background-color: #3245f1;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="memberForm">
+        <h2>Member Information</h2>
+        <form action="/form" method="POST" id="newMemberForm">
+            <input type="text" name="group_title" placeholder="Group Title">
+            <input type="text" name="name" placeholder="Name">
+            <input type="email" name="email" placeholder="Email">
+            <input type="tel" name="contact_number" placeholder="Contact Number">
+            <input type="text" name="role" placeholder="Role"> <br/>
+            <button type="submit" id="submitMemberButton">Submit</button>
+        </form>
+    </div>
+    
+</body>
+</html>
